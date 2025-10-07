@@ -1,6 +1,6 @@
 import type Service = require("./Service");
 import type Ticket = require("./Ticket");
-import type User = require("../User");
+import type User = require("./User");
 
 export interface ITicketService {
   id: number;
