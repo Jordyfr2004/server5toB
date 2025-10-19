@@ -1,98 +1,206 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+#  Práctica 4 – API REST con NestJS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 📘 Descripción del proyecto
+En esta práctica se implementó una **API REST** utilizando el framework **NestJS**, organizada por módulos para manejar las principales entidades del sistema:  
+equipos, servicios de mantenimiento, órdenes de reparación, repuestos y usuarios.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Cada módulo incluye sus propios **controladores**, **servicios**, **DTOs** y **entidades**, lo que permite crear, actualizar y consultar los datos de forma estructurada.  
+Esta práctica refuerza los conceptos de arquitectura modular, inyección de dependencias y el uso de DTOs en NestJS.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🧱 Estructura del proyecto
 
-## Project setup
-
-```bash
-$ npm install
+```
+Practica4/
+│
+├── package.json               # Dependencias del proyecto
+├── nest-cli.json              # Configuración del CLI de NestJS
+├── tsconfig.json              # Configuración de TypeScript
+├── src/
+│   ├── main.ts                # Punto de inicio del servidor
+│   ├── app.module.ts          # Módulo raíz
+│   │
+│   ├── equipments/            # Módulo de equipos
+│   ├── maintenance-services/  # Módulo de servicios de mantenimiento
+│   ├── repair-orders/         # Módulo de órdenes de reparación
+│   ├── spare-parts/           # Módulo de repuestos
+│   └── users/                 # Módulo de usuarios y técnicos
+│
+└── README.md
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+##  Instalación y ejecución
 
-# watch mode
-$ npm run start:dev
+1. **Instalar dependencias**
+   ```bash
+   npm install
+   ```
 
-# production mode
-$ npm run start:prod
+2. **Ejecutar el servidor**
+   ```bash
+   npm run start:dev
+   ```
+
+3. **Abrir en el navegador o Postman**
+   ```
+   http://localhost:3000
+   ```
+
+---
+
+## 🧩 Estructura de los módulos principales
+
+- `equipments/` → Manejo de equipos registrados  
+- `maintenance-services/` → Gestión de servicios de mantenimiento  
+- `repair-orders/` → Registro de órdenes, notificaciones y reseñas  
+- `spare-parts/` → Gestión de repuestos disponibles  
+- `users/` → Administración de usuarios y técnicos  
+
+Cada módulo tiene:
+- `controller.ts` → Define las rutas HTTP (GET, POST, PUT, DELETE)  
+- `service.ts` → Contiene la lógica del negocio  
+- `dto/` → Estructuras para validar los datos enviados  
+- `entities/` → Modelos de las tablas o colecciones  
+
+---
+
+## Ejemplos de métodos POST
+
+Puedes hacer las pruebas en **Postman**, **Thunder Client** o **cURL**.
+
+###  1. Registrar un equipo
+**Ruta:**  
+`POST http://localhost:3000/equipments`
+
+**Cuerpo (JSON):**
+```json
+{
+  "userId": "3fbd8c54-b9f3-4e22-94e4-905a8bb12c99",
+  "name": "Laptop HP Pavilion",
+  "type": "LAPTOP",
+  "brand": "HP",
+  "model": "Pavilion 15",
+  "serialNumber": "SN12345HP2025",
+  "observations": "Laptop with overheating issues"
+}
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+###  2. Crear un usuario
+**Ruta:**  
+`POST http://localhost:3000/users`
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+**Cuerpo (JSON):**
+```json
+{
+  "name": "Pedro",
+  "lastName": "Alay",
+  "email": "pedrocrackc@gmail.com",
+  "phone": "+593987654321",
+  "address": "Quito, Ecuador"
+}
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+###  3. Crear un tecnico
+**Ruta:**  
+`POST http://localhost:3000/users/technician`
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+**Cuerpo (JSON):**
+```json
+{
+  "name": "Pedro",
+  "lastName": "Alay",
+  "email": "pedrocrackc@gmail.com",
+  "phone": "+593987654321",
+  "address": "Quito, Ecuador",
+  "specialty": "Laptop and hardware repair",
+  "experienceYears": 5,
+  "active": true
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+###  4. Registrar un servicio de mantenimiento
+**Ruta:**  
+`POST http://localhost:3000/services`
 
-Check out a few resources that may come in handy when working with NestJS:
+**Cuerpo (JSON):**
+```json
+{
+  "serviceName": "Screen changes",
+  "description": "screen changes for all types of devices",
+  "basePrice": 45.5,
+  "estimatedTimeMinutes": 60,
+  "requiresParts": true,
+  "type": "REPAIR",
+  "imageUrls": [
+    "https://example.com/image1.jpg",
+    "https://example.com/image2.jpg"
+  ],
+  "notes": "string"
+}
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+###  5. Crear una orden de reparación
+**Ruta:**  
+`POST http://localhost:3000/repair-orders`
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Cuerpo (JSON):**
+```json
+{
+  "equipmentId": "a4b8b632-1df3-4c12-84e8-29ab8c1a22a1",
+  "problemDescription": "Laptop does not power on.",
+  "diagnosis": "Power circuit issue.",
+  "estimatedCost": 150.5,
+  "details": [
+    {
+      "repairOrderId": "c0cbe78e-8a26-4b91-a8f7-44baf820aa12",
+      "serviceId": "ff98e41b-3e01-4a99-bd90-c2cc8513e213",
+      "technicianId": "bda2b7d1-c8d9-47a5-b6f1-47f5a98f52d7",
+      "unitPrice": 100,
+      "discount": 10,
+      "notes": "Performed full diagnostic on motherboard."
+    }
+  ],
+  "parts": [
+    {
+      "repairOrderId": "c0cbe78e-8a26-4b91-a8f7-44baf820aa12",
+      "partId": "c0cbe78e-8a26-4b91-a8f7-44baf820aa12",
+      "quantity": 2,
+      "imgUrl": "https://example.com/parts/img123.jpg"
+    }
+  ]
+}
+```
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+###  6. Agregar un repuesto
+**Ruta:**  
+`POST http://localhost:3000/spare-parts`
 
-## License
+**Cuerpo (JSON):**
+```json
+{
+  "name": "SSD 500GB Kingston",
+  "description": "Solid State Drive compatible with laptops and desktops.",
+  "stock": 25,
+  "unitPrice": 65.99
+}
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+##  Conclusión
+
+Con esta práctica se logró crear una **API REST completa** en NestJS, aplicando conceptos como controladores, servicios, DTOs y entidades.  
+Además, se comprendió cómo estructurar un proyecto modular y cómo realizar **peticiones POST** para crear registros dentro del sistema.
